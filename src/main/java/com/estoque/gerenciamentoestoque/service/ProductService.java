@@ -26,7 +26,7 @@ public class ProductService {
 
     public ProductResponseDTO save(ProductRequestDTO dto) {
         Category category = categoryRepository.findById(dto.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria não com o id: " + dto.getCategoryId() + " encontrada"));
 
         Product product = new Product();
         product.setName(dto.getName());
@@ -49,7 +49,7 @@ public class ProductService {
 
     public ProductResponseDTO findById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Produto com o id: " + id + " não encontrado"));
 
         return ProductMapper.toResponse(product);
     }
@@ -87,7 +87,7 @@ public class ProductService {
 
     public void delete(Long id) {
         Product oldProduct = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Produto com o id: " + id + " não encontrado"));
 
         productRepository.delete(oldProduct);
     }

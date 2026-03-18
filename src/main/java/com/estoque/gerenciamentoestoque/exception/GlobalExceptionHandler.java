@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
     private static final Logger log =
             LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    // 🔹 400 - Erro de validação (DTO)
+    // 400 - Erro de validação (DTO)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationError> handleValidation(MethodArgumentNotValidException ex) {
 
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(validationError);
     }
 
-    // 🔹 404 - Recurso não encontrado
+    // 404 - Recurso não encontrado
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiError> handleNotFound(ResourceNotFoundException ex) {
 
@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    // 🔹 400 - Regra de negócio
+    // 400 - Regra de negócio
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ApiError> handleBusiness(BusinessException ex) {
 
@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(error);
     }
 
-    // 🔹 400 - JSON mal formatado
+    // 400 - JSON mal formatado
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiError> handleInvalidJson(HttpMessageNotReadableException ex) {
 
@@ -82,7 +82,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(error);
     }
 
-    // 🔹 400 - Tipo de parâmetro inválido (ex: id=abc)
+    // 400 - Tipo de parâmetro inválido (ex: id=abc)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiError> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
 
@@ -94,7 +94,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(error);
     }
 
-    // 🔹 409 - Violação de integridade (constraint no banco)
+    // 409 - Violação de integridade (constraint no banco)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ApiError> handleDataIntegrity(DataIntegrityViolationException ex) {
 
@@ -108,7 +108,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
-    // 🔹 500 - Erro inesperado
+    // 500 - Erro inesperado
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleGeneric(Exception ex) {
 
