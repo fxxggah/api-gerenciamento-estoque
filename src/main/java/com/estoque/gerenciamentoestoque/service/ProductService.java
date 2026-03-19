@@ -70,9 +70,9 @@ public class ProductService {
 
     public ProductResponseDTO update(Long id, ProductRequestDTO dto) {
         Product productUpdate = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Produto com o id: " + id + " não encontrado"));
         Category category = categoryRepository.findById(dto.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria com o id: " + dto.getCategoryId() + " não encontrada"));
 
         productUpdate.setName(dto.getName());
         productUpdate.setCategory(category);

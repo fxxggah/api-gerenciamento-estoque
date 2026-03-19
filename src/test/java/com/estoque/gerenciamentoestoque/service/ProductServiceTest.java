@@ -4,6 +4,7 @@ import com.estoque.gerenciamentoestoque.dto.product.ProductRequestDTO;
 import com.estoque.gerenciamentoestoque.dto.product.ProductResponseDTO;
 import com.estoque.gerenciamentoestoque.entity.Category;
 import com.estoque.gerenciamentoestoque.entity.Product;
+import com.estoque.gerenciamentoestoque.exception.ResourceNotFoundException;
 import com.estoque.gerenciamentoestoque.repository.CategoryRepository;
 import com.estoque.gerenciamentoestoque.repository.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -19,8 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
@@ -209,6 +209,78 @@ class ProductServiceTest {
         // Verifica se os métodos do repository foram chamados
         verify(productRepository).findById(1L);
         verify(productRepository).delete(product);
+
+    }
+
+    // Exceptions Testes
+
+    @Test
+    @DisplayName("Deve lançar uma exceção quando o Id da categoria do produto não existir.")
+    void deveLancarExcecaoQuandoIdDaCategoriaDoProdutoNaoExistir(){
+
+        // Produto que sera salvo com o Id da categoria inexistente
+        ProductRequestDTO dto = new ProductRequestDTO("Attack Shark X11", 1L, "Mouse Gamer com Dock", new BigDecimal("179.90"), 3);
+
+        // Configura o mock para retornar vazio
+        when(categoryRepository.findById(dto.getCategoryId())).thenReturn(Optional.empty());
+
+        // Verifica se a exceção correta foi lançada
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
+            productService.save(dto);
+        });
+
+        // Verificar se a mensagem da exceção está correta
+        assertEquals("Categoria com o id: " + dto.getCategoryId() + " não encontrada", exception.getMessage());
+
+        // Verifica que o save NUNCA foi chamado
+        verify(productRepository, never()).save(any(Product.class));
+        verify(categoryRepository).findById(1L);
+
+    }
+
+    @Test
+    @DisplayName("Deve lançar uma exceção quando o Id do produto não existir.")
+    void deveLancarExcecaoQuandoIdDoProdutoNaoExistir(){
+
+        // Id que nao existe
+        Long idInexistente = 1L;
+
+        // Configura o mock para retornar vazio
+        when(productRepository.findById(idInexistente)).thenReturn(Optional.empty());
+
+        // Verifica se a exceção correta foi lançada
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
+            productService.findById(idInexistente);
+        });
+
+        // Verificar se a mensagem da exceção está correta
+        assertEquals("Produto com o id: 1 não encontrado", exception.getMessage());
+
+        // Verifica se o findById do repository foi chamado
+        verify(productRepository).findById(idInexistente);
+
+    }
+
+    @Test
+    @DisplayName("Deve lançar uma exceção quando a categoria não conter produtos.")
+    void deveRetornarExcecaoQuandoCategoriaNaocConterProdutos() {
+
+        // Id que da categoria que sera buscado
+        Long categoryId = 1L;
+
+        // Configura o mock para retornar vazio
+        when(productRepository.findByCategoryId(categoryId)).thenReturn(List.of());
+
+        // Verifica se a exceção correta foi lançada
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
+            productService.findByCategory(categoryId);
+        });
+
+        // Verificar se a mensagem da exceção está correta
+        assertEquals("Nenhum produto encontrado para essa categoria", exception.getMessage());
+
+        // Verifica se o findByCategoryId do repository foi chamado
+        verify(productRepository).findByCategoryId(categoryId);
 
     }
 

@@ -56,9 +56,20 @@ Os testes foram desenvolvidos utilizando:
 - **JUnit 5**
 - **Mockito**
 
-Os testes simulam o comportamento dos repositórios, permitindo validar a lógica do serviço de forma isolada.
+Os repositórios são **mockados**, permitindo testar apenas a lógica da camada de serviço de forma isolada.
 
-### Cenários testados no `ProductService`
+### Services testados
+
+- `ProductService`
+- `CategoryService`
+
+---
+
+## ✅ Cenários de Teste
+
+### ProductService
+
+#### Operações CRUD
 
 - Criação de produto
 - Listagem de produtos
@@ -67,19 +78,46 @@ Os testes simulam o comportamento dos repositórios, permitindo validar a lógic
 - Atualização de produto
 - Remoção de produto
 
-Durante os testes são verificados:
+#### Cenários de exceção
 
-- conversão correta entre **Entity → DTO**
-- interação correta com os **Repositories**
-- comportamento esperado das regras de negócio
+- Produto não encontrado por ID
+- Categoria informada no produto não encontrada
+- Nenhum produto encontrado para determinada categoria
 
-Exemplo de verificação realizada nos testes:
+---
+
+### CategoryService
+
+#### Operações CRUD
+
+- Criação de categoria
+- Listagem de categorias
+- Busca de categoria por ID
+- Remoção de categoria
+
+#### Cenários de exceção
+
+- Categoria não encontrada por ID
+- Tentativa de criação de categoria com nome já existente
+
+---
+
+## 🔎 O que é validado nos testes
+
+Os testes garantem que:
+
+- as **regras de negócio da camada Service funcionam corretamente**
+- a conversão entre **Entity e DTO** acontece corretamente
+- os **Repositories são chamados corretamente**
+- exceções de negócio são lançadas quando necessário
+
+Exemplo de verificação de interação com o repositório:
 
 ```java
 verify(productRepository).save(any(Product.class));
 ```
 
-Isso garante que o serviço realmente executou a operação esperada.
+Isso garante que o método esperado foi executado durante o teste.
 
 ---
 
@@ -133,6 +171,7 @@ Este projeto tem como objetivo consolidar conhecimentos em:
 - Organização de código com arquitetura em camadas
 - Integração com banco de dados relacional
 - Testes unitários em aplicações backend
+- Tratamento de exceções em regras de negócio
 - Containerização de aplicações com Docker
 - Estruturação de projetos backend para portfólio
 
