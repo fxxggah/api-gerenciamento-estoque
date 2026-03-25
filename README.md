@@ -1,12 +1,12 @@
 # 📦 Sistema de Gerenciamento de Estoque
 
-API REST desenvolvida em **Java 17** com **Spring Boot** para gerenciamento de produtos e categorias, aplicando arquitetura em camadas, boas práticas de desenvolvimento backend, testes automatizados e containerização com Docker.
+API REST desenvolvida em **Java 17** com **Spring Boot** para gerenciamento de **produtos** e **categorias**, aplicando arquitetura em camadas, boas práticas de desenvolvimento backend, testes automatizados e containerização com Docker.
 
-Este projeto foi desenvolvido como parte do meu processo de evolução como desenvolvedor backend, consolidando conhecimentos em APIs REST, persistência de dados, testes de software e ambiente containerizado.
+Este projeto foi desenvolvido como parte do meu processo de evolução como desenvolvedor backend, consolidando conhecimentos em **APIs REST**, **persistência de dados**, **testes de software** e **ambiente containerizado**.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+# 🚀 Tecnologias Utilizadas
 
 - Java 17
 - Spring Boot
@@ -18,10 +18,11 @@ Este projeto foi desenvolvido como parte do meu processo de evolução como dese
 - Swagger (OpenAPI)
 - JUnit 5
 - Mockito
+- MockMvc
 
 ---
 
-## 🏗️ Arquitetura
+# 🏗️ Arquitetura
 
 O projeto segue o padrão de **arquitetura em camadas**, promovendo separação de responsabilidades:
 
@@ -31,32 +32,45 @@ O projeto segue o padrão de **arquitetura em camadas**, promovendo separação 
 - **DTO** → separação entre modelo de domínio e camada de comunicação externa
 - **Exception** → tratamento global de erros com padrão de resposta estruturado
 
+Essa abordagem facilita **manutenção, testes e escalabilidade da aplicação**.
+
 ---
 
-## 📂 Estrutura do Projeto
+# 📂 Estrutura do Projeto
+
 
 ```
 src/
- ├── controller
- ├── dto
- ├── entity
- ├── exception
- ├── repository
- └── service
+├── controller/
+├── dto/
+├── entity/
+├── exception/
+├── repository/
+├── service/
+└── config/
+
+src/test/
+├── controller/
+└── service/
 ```
 
 ---
 
-## 🧪 Testes Automatizados
+# 🧪 Testes Automatizados
 
-Foram implementados **testes unitários para a camada de Service**, garantindo o correto funcionamento das regras de negócio.
+Foram implementados **testes unitários para as camadas de Service e Controller**, garantindo o correto funcionamento das regras de negócio e dos endpoints da API.
 
 Os testes foram desenvolvidos utilizando:
 
 - **JUnit 5**
 - **Mockito**
+- **MockMvc**
 
-Os repositórios são **mockados**, permitindo testar apenas a lógica da camada de serviço de forma isolada.
+---
+
+# 🔬 Testes da Camada Service
+
+Os testes de Service verificam **as regras de negócio da aplicação**, isolando a lógica do banco de dados através de **mocks dos repositórios**.
 
 ### Services testados
 
@@ -65,11 +79,29 @@ Os repositórios são **mockados**, permitindo testar apenas a lógica da camada
 
 ---
 
-## ✅ Cenários de Teste
+# 🔬 Testes da Camada Controller
 
-### ProductService
+Os testes de Controller verificam o **comportamento dos endpoints HTTP da API**, garantindo que:
 
-#### Operações CRUD
+- as requisições são processadas corretamente
+- os status HTTP retornados estão corretos
+- os dados retornados no JSON são os esperados
+- os serviços são chamados corretamente
+
+Esses testes utilizam **MockMvc** para simular requisições HTTP sem a necessidade de subir o servidor.
+
+### Controllers testados
+
+- `ProductController`
+- `CategoryController`
+
+---
+
+# ✅ Cenários de Teste
+
+## ProductService
+
+### Operações CRUD
 
 - Criação de produto
 - Listagem de produtos
@@ -78,7 +110,7 @@ Os repositórios são **mockados**, permitindo testar apenas a lógica da camada
 - Atualização de produto
 - Remoção de produto
 
-#### Cenários de exceção
+### Cenários de exceção
 
 - Produto não encontrado por ID
 - Categoria informada no produto não encontrada
@@ -86,27 +118,28 @@ Os repositórios são **mockados**, permitindo testar apenas a lógica da camada
 
 ---
 
-### CategoryService
+## CategoryService
 
-#### Operações CRUD
+### Operações CRUD
 
 - Criação de categoria
 - Listagem de categorias
 - Busca de categoria por ID
 - Remoção de categoria
 
-#### Cenários de exceção
+### Cenários de exceção
 
 - Categoria não encontrada por ID
 - Tentativa de criação de categoria com nome já existente
 
 ---
 
-## 🔎 O que é validado nos testes
+# 🔎 O que é validado nos testes
 
 Os testes garantem que:
 
 - as **regras de negócio da camada Service funcionam corretamente**
+- os **endpoints REST retornam os status HTTP corretos**
 - a conversão entre **Entity e DTO** acontece corretamente
 - os **Repositories são chamados corretamente**
 - exceções de negócio são lançadas quando necessário
@@ -157,6 +190,7 @@ http://localhost:8080/swagger-ui/index.html
 
 - Cadastro de produtos e categorias
 - Listagem de produtos e categorias
+- Listagem de produtos por categoria
 - Atualização de produtos e categorias
 - Remoção de produtos e categorias
 - Persistência em banco de dados relacional
@@ -173,13 +207,14 @@ Este projeto tem como objetivo consolidar conhecimentos em:
 - Testes unitários em aplicações backend
 - Tratamento de exceções em regras de negócio
 - Containerização de aplicações com Docker
-- Estruturação de projetos backend para portfólio
+- Estruturação de projetos backend para portfólio profissional
 
 ---
 
 ## 🔮 Melhorias Futuras
 
 - Implementação de autenticação com JWT
+- Implementação de Testes de Integração
 - Paginação e filtros dinâmicos
 - Versionamento de banco com Flyway
 - Deploy em ambiente cloud
@@ -190,4 +225,4 @@ Este projeto tem como objetivo consolidar conhecimentos em:
 
 Desenvolvido por **Gabriel Oliveira**
 
-Projeto pessoal focado na evolução técnica como desenvolvedor backend.
+Projeto pessoal focado na evolução técnica como desenvolvedor backend e na construção de um portfólio sólido para o mercado de desenvolvimento de software.
